@@ -1,7 +1,7 @@
 # Política de Privacidade da Zelora — minuta para revisão jurídica
 
 **Versão:** 0.1 — **Data da minuta:** 10/11/2026  
-**Controladora/operadora:** [PREENCHER RAZÃO SOCIAL], CNPJ [PREENCHER], endereço [PREENCHER].  
+**Controladora/operadora:** 69.987.201 DEIVID DE JESUS DE MOURA, CNPJ 69.987.201/0001-20, endereço servicosdegestaoqradmin@gmail.com.  
 **Canal de privacidade:** [PREENCHER E-MAIL/FORMULÁRIO].  
 **Encarregado (DPO), se aplicável/designado:** [PREENCHER NOME OU CANAL].  
 **Atenção:** minuta baseada no escopo planejado. Confirmar os fluxos reais, fornecedores, bases legais e prazos de retenção antes de publicar.
