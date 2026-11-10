@@ -2,7 +2,7 @@
 
 **Versão:** 0.1 — **Data da minuta:** 10/11/2026  
 **Controladora/operadora:** 69.987.201 DEIVID DE JESUS DE MOURA, CNPJ 69.987.201/0001-20, endereço servicosdegestaoqradmin@gmail.com.  
-**Canal de privacidade:** [PREENCHER E-MAIL/FORMULÁRIO].  
+**Canal de privacidade:** servicosdegestaoqradmin@gmail.com.  
 **Encarregado (DPO), se aplicável/designado:** [PREENCHER NOME OU CANAL].  
 **Atenção:** minuta baseada no escopo planejado. Confirmar os fluxos reais, fornecedores, bases legais e prazos de retenção antes de publicar.
 
@@ -79,7 +79,7 @@ Nos termos da LGPD, o titular poderá solicitar, conforme aplicável:
 - oposição a tratamento realizado com fundamento legal cabível;
 - revisão de decisões tomadas unicamente com base em tratamento automatizado, nos termos legais.
 
-Pedidos: [PREENCHER CANAL]. Poderemos solicitar informações razoáveis para confirmar a identidade do solicitante e proteger os dados contra acesso indevido.
+Pedidos: servicosdegestaoqradmin@gmail.com. Poderemos solicitar informações razoáveis para confirmar a identidade do solicitante e proteger os dados contra acesso indevido.
 
 ## 9. Cookies e tecnologias semelhantes
 Cookies estritamente necessários poderão ser utilizados para funcionamento, segurança e sessão. Cookies de análise, personalização ou publicidade não essenciais deverão ser descritos por finalidade e permanecer desativados até a escolha do usuário quando dependerem de consentimento.
@@ -97,4 +97,4 @@ A Plataforma é destinada a pessoas com 18 anos ou mais. Não buscamos coletar i
 ## 12. Atualizações
 Esta Política poderá ser atualizada para refletir alterações legais, operacionais ou tecnológicas. A versão, data e resumo das alterações relevantes serão informados na Plataforma. Quando necessário, será solicitado novo consentimento.
 
-**Última atualização:** [PREENCHER NA PUBLICAÇÃO].
+**Última atualização da minuta:** 10/11/2026.
