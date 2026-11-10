@@ -1,7 +1,7 @@
 # Visão de arquitetura
 
 ## Estado
-Documento inicial. A escolha definitiva de stack, hospedagem, autenticação, armazenamento e serviços externos deverá ser registrada após uma decisão técnica explícita.
+Stack inicial registrada em [ADR 0001](decisions/0001-stack-inicial.md): React + Vite + TypeScript para web; Node.js + TypeScript para API REST; PostgreSQL; Firebase Authentication; React Native + Expo para a etapa mobile. Hospedagem, storage, versões concretas e fornecedores adicionais ainda serão selecionados.
 
 ## Diretrizes
 - Separar interface, lógica de aplicação e persistência.
