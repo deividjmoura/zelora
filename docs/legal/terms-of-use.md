@@ -1,7 +1,7 @@
 # Termos de Uso da Zelora — minuta para revisão jurídica
 
 **Versão:** 0.1 — **Data da minuta:** 10/11/2026  
-**Operadora:** 69.987.201 DEIVID DE JESUS DE MOURA, CNPJ 69.987.201/0001-20, com sede em [PREENCHER] (“Zelora”).  
+**Pessoa jurídica indicada para operação da Zelora:** 69.987.201 DEIVID DE JESUS DE MOURA, CNPJ 69.987.201/0001-20 (Empresário Individual — MEI, conforme documentação cadastral consultada), com endereço comercial em [PREENCHER] (“Zelora”).  
 **Contato:** servicosdegestaoqradmin@gmail.com.  
 **Atenção:** minuta interna. Não publicar nem exigir aceite antes de preencher os campos e obter revisão jurídica.
 
