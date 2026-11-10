@@ -1,8 +1,8 @@
 import { Pool } from "pg";
 import { loadApiConfig } from "./config.js";
 
-export function createDatabasePool(): Pool {
-  const config = loadApiConfig();
+export function createDatabasePool(env: NodeJS.ProcessEnv = process.env): Pool {
+  const config = loadApiConfig(env);
   if (!config.databaseUrl) {
     throw new Error("DATABASE_URL is required before opening a PostgreSQL connection");
   }
