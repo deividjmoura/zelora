@@ -1,0 +1,16 @@
+{
+  "name": "zelora",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @zelora/web",
+    "build": "npm run build --workspace @zelora/web",
+    "typecheck": "npm run typecheck --workspace @zelora/web"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
