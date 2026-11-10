@@ -3,12 +3,15 @@
   "private": true,
   "version": "0.1.0",
   "workspaces": [
-    "apps/web"
+    "apps/web",
+    "apps/api"
   ],
   "scripts": {
     "dev": "npm run dev --workspace @zelora/web",
-    "build": "npm run build --workspace @zelora/web",
-    "typecheck": "npm run typecheck --workspace @zelora/web"
+    "build": "npm run build --workspace @zelora/web && npm run build --workspace @zelora/api",
+    "typecheck": "npm run typecheck --workspace @zelora/web && npm run typecheck --workspace @zelora/api",
+    "dev:api": "npm run dev --workspace @zelora/api",
+    "test:api": "npm run test --workspace @zelora/api"
   },
   "engines": {
     "node": ">=22.12.0"
