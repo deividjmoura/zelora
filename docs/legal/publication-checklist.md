@@ -1,10 +1,12 @@
 # Pendências legais e de privacidade antes do lançamento
 
 ## Identidade da operadora
-- [ ] Definir razão social, CNPJ, endereço e representante legal.
-- [ ] Definir canal de atendimento ao consumidor.
-- [ ] Definir canal de privacidade e encarregado/DPO, conforme avaliação jurídica.
-- [ ] Confirmar se a Zelora será controladora, operadora ou atuará em papéis distintos em cada fluxo.
+- [x] Identificar razão social e CNPJ com base na documentação cadastral consultada: 69.987.201 DEIVID DE JESUS DE MOURA — 69.987.201/0001-20 (Empresário Individual — MEI).
+- [ ] Confirmar endereço comercial e representante/qualificação que deverá constar nos documentos.
+- [ ] Confirmar canal de atendimento ao consumidor; e-mail profissional informado: servicosdegestaoqradmin@gmail.com.
+- [ ] Confirmar canal de privacidade e avaliar formalmente a necessidade/designação de encarregado, conforme LGPD e regulamentação aplicável.
+- [ ] Mapear os papéis da Zelora (controladora/operadora) por atividade e fluxo de dados; não presumir um papel único para toda a operação.
+- [ ] Verificar com contador/assessoria a compatibilidade das atividades efetivas da plataforma com o CNAE e o enquadramento MEI antes do lançamento.
 
 ## Mapeamento de dados
 - [ ] Inventariar dados coletados em cadastro, perfis, CPF, residências, chat, agenda, avaliações, denúncias e pagamentos.
