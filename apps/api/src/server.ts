@@ -1,4 +1,6 @@
 import { createServer, type Server } from "node:http";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 
 const serviceName = "zelora-api";
 
@@ -45,6 +47,6 @@ function start(): void {
   process.once("SIGTERM", () => shutdown("SIGTERM"));
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   start();
 }
