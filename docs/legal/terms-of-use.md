@@ -15,7 +15,7 @@ O cadastro é destinado a pessoas com 18 anos ou mais e capacidade civil para co
 
 A Zelora poderá solicitar confirmação de e-mail, telefone e, quando necessário e informado, validação de identidade. O usuário não deve criar contas falsas, se passar por terceiro ou usar documentos de outra pessoa.
 
-O usuário deve comunicar imediatamente suspeita de acesso não autorizado pelo canal [PREENCHER].
+O usuário deve comunicar imediatamente suspeita de acesso não autorizado pelo canal servicosdegestaoqradmin@gmail.com.
 
 ## 3. Papéis e perfis
 O usuário poderá atuar como Contratante ou Profissional, conforme os fluxos disponíveis. Perfis profissionais podem apresentar descrição, foto, experiência, serviços, preços, regiões atendidas, disponibilidade e portfólio.
@@ -89,4 +89,4 @@ A Zelora poderá atualizar estes Termos para refletir mudanças legais, operacio
 Aplicam-se as leis da República Federativa do Brasil. Eventuais controvérsias serão tratadas no foro competente, respeitadas as regras legais de competência e proteção do consumidor.
 
 Dúvidas, reclamações ou solicitações: servicosdegestaoqradmin@gmail.com.  
-**Última atualização:** [PREENCHER NA PUBLICAÇÃO].
+**Última atualização da minuta:** 10/11/2026.
