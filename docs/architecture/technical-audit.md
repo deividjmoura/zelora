@@ -1,62 +1,38 @@
 # Auditoria técnica — estado da fundação
 
 **Data:** 10/11/2026  
-**Escopo:** inspeção do conteúdo versionado na branch `main` e criação do primeiro esqueleto executável da API.  
-**Limite:** esta auditoria é estática. Nenhum comando npm, build, typecheck ou teste foi executado em ambiente local nesta etapa.
+**Escopo:** inspeção estática da branch `main` e preparação da fundação de identidade em branch de trabalho.  
+**Limite:** a etapa anterior não executou npm install, build, typecheck ou testes localmente. A branch de trabalho atual ainda precisa de instalação e execução real para ser considerada validada.
 
-## Estado encontrado antes das alterações
+## Estado confirmado na main antes desta etapa
 
-- O repositório tinha um workspace npm com apenas `apps/web`.
-- O frontend era um placeholder React 19 + Vite 7 + TypeScript + Tailwind CSS 4, sem rotas, telas funcionais, cliente HTTP, autenticação ou integração com API.
-- Não existiam `apps/api`, pacotes compartilhados, migrações SQL ou testes automatizados.
-- Não havia lockfile npm versionado.
-- A configuração de ambiente já reservava variáveis públicas do Firebase e URL da API, mas não havia integração real.
-- A documentação descrevia PostgreSQL e Firebase Authentication como decisões de arquitetura, não como serviços configurados.
+- Monorepo npm com workspaces `apps/web` e `apps/api`.
+- Frontend React 19 + Vite 7 + TypeScript + Tailwind CSS 4, ainda sem fluxo funcional integrado.
+- API Node.js/TypeScript mínima, com `GET /health` e resposta JSON 404.
+- Dois testes iniciais para health e 404.
+- Sem lockfile, banco configurado, migrações, Firebase Admin, middleware de autenticação, autorização ou CI.
+- Documentação de produto já prevê papéis de contratante e profissional, inclusive uma conta que pode exercer ambos.
 
-## Alterações realizadas nesta etapa
+## Fundação proposta nesta branch
 
-- Criado `apps/api` como workspace TypeScript em Node.js, sem framework adicional nesta primeira etapa.
-- Criado servidor HTTP mínimo com:
-  - `GET /health` retornando JSON e status 200;
-  - resposta JSON 404 para rotas desconhecidas;
-  - cabeçalhos básicos `X-Content-Type-Options: nosniff` e `Cache-Control: no-store`;
-  - validação da variável `PORT` e encerramento gracioso por SIGINT/SIGTERM.
-- Criados testes automatizados para o endpoint de saúde e rota inexistente, usando `node:test`.
-- Registrados scripts raiz para desenvolvimento da API, build, typecheck e teste da API.
-- Incluída a porta local da API no `.env.example`.
+- Configuração validada para porta, URL PostgreSQL opcional e tamanho do pool.
+- Fábrica explícita de pool PostgreSQL: não conecta nem exige credenciais no boot da API.
+- Primeira migração SQL para usuários, papéis e perfis de contratante/profissional.
+- Integração isolada com Firebase Admin usando Application Default Credentials e verificação de revogação de ID tokens.
+- Parser de Bearer token e testes unitários para configuração e parsing.
+- Documentação dos limites: nenhum endpoint de negócio ou middleware de autorização foi habilitado.
 
-## O que ainda NÃO está implementado
+## Limites e riscos ainda abertos
 
-1. Persistência PostgreSQL, schema, migrações e seeds.
-2. Firebase Admin SDK e validação de ID token no backend.
-3. Autorização por usuário, papel e recurso.
-4. Domínios de negócio (perfis, residências, serviços, solicitações, chat, agenda, avaliações e assinaturas).
-5. Validação de payloads, rate limiting, CORS com allowlist e política de erros.
-6. Cliente HTTP no frontend, telas reais, roteamento e estados de carregamento/erro.
-7. Pacotes compartilhados de tipos e schemas.
-8. Testes de integração, segurança e CI.
-9. Lockfile reproduzível e verificação automatizada de build no GitHub Actions.
-10. Configuração de Firebase, PostgreSQL, hospedagem, storage, e-mail e monitoramento.
+1. Não há runner nem histórico automático de migrações.
+2. A migração SQL ainda precisa ser aplicada e testada contra PostgreSQL real.
+3. Firebase Admin depende de credenciais ADC e projeto Firebase configurados fora do repositório.
+4. Verificação de token não equivale a autorização por papel/recurso.
+5. Ainda não existe sincronização transacional de Firebase UID com `users`.
+6. Ainda não existem fluxos de cadastro, perfis, residências ou solicitações.
+7. Lockfile, instalação limpa e CI continuam pendentes.
+8. Não foi configurada hospedagem, banco gerenciado, Firebase, storage, e-mail ou monitoramento.
 
-## Riscos e decisões pendentes
+## Critério para considerar esta fundação validada
 
-- **Node.js:** o root exige Node `>=22.12.0`; alinhar ambiente local e CI a essa versão.
-- **Dependências:** gerar e versionar `package-lock.json` após instalar o workspace; não declarar build validado antes disso.
-- **Autenticação:** o endpoint de saúde é público e não prova autenticação. Nenhuma rota de negócio deve ser criada sem middleware de validação Firebase e autorização no servidor.
-- **Banco:** definir provedor PostgreSQL e estratégia de migração antes de criar conexão de produção. Não colocar credenciais no Git.
-- **CORS:** ainda não há política CORS. Antes de expor endpoints de negócio ao navegador, definir origens permitidas por ambiente.
-- **Dados pessoais:** não persistir CPF, endereço completo, documentos ou mensagens até existir modelo de acesso, retenção, logs e proteção apropriados.
-- **Escopo MEI:** manter pendente a validação contábil/jurídica das atividades efetivamente exercidas pela Zelora.
-
-## Próxima sequência técnica recomendada
-
-1. Instalar dependências e gerar lockfile; executar build, typecheck e testes.
-2. Escolher e configurar PostgreSQL; criar migrações iniciais para identidade e perfis, sem armazenar senhas Firebase.
-3. Integrar Firebase Admin SDK e testar autenticação/autorização no servidor.
-4. Criar pacote compartilhado de contratos e validação.
-5. Implementar primeiro fluxo vertical: cadastro/perfil profissional e contratante, com persistência e testes.
-6. Só então avançar para residências, busca e solicitações, mantendo endereço completo privado por padrão.
-
-## Critério de conclusão
-
-A fundação será considerada validada somente quando instalação limpa, build, typecheck e testes passarem em CI e quando as rotas privadas exigirem autenticação e autorização verificadas no backend.
+Instalação reproduzível, build, typecheck e testes passando; migração aplicada em PostgreSQL de teste; Firebase Admin validado com credenciais de ambiente; middleware e autorização testados antes de expor qualquer rota privada.
