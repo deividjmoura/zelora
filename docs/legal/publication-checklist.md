@@ -6,7 +6,7 @@
 - [ ] Confirmar canal de atendimento ao consumidor; e-mail profissional informado: servicosdegestaoqradmin@gmail.com.
 - [ ] Confirmar canal de privacidade e avaliar formalmente a necessidade/designação de encarregado, conforme LGPD e regulamentação aplicável.
 - [ ] Mapear os papéis da Zelora (controladora/operadora) por atividade e fluxo de dados; não presumir um papel único para toda a operação.
-- [ ] Verificar com contador/assessoria a compatibilidade das atividades efetivas da plataforma com o CNAE e o enquadramento MEI antes do lançamento.
+- [ ] Verificar com contador/assessoria a compatibilidade das atividades efetivas da plataforma com o CNAE e o enquadramento MEI antes do lançamento. O CCMEI consultado no repositório QR Admin lista CNAEs 4751-2/01, 4752-1/00, 8219-9/99 e 6190-6/99; nenhum deles identifica expressamente, por si só, desenvolvimento de software ou operação de marketplace. Não presumir que o cadastro atual autoriza essas atividades.
 
 ## Mapeamento de dados
 - [ ] Inventariar dados coletados em cadastro, perfis, CPF, residências, chat, agenda, avaliações, denúncias e pagamentos.
