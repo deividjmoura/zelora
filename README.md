@@ -41,6 +41,7 @@ docs/
 - [Papéis e permissões](docs/product/user-roles.md)
 - [Regras de negócio](docs/product/business-rules.md)
 - [Arquitetura](docs/architecture/overview.md)
+- [Auditoria técnica e estado da fundação](docs/architecture/technical-audit.md)
 - [Decisão da stack](docs/architecture/decisions/0001-stack-inicial.md)
 - [Termos de Uso — minuta](docs/legal/terms-of-use.md)
 - [Política de Privacidade — minuta](docs/legal/privacy-policy.md)
@@ -57,7 +58,17 @@ docs/
 6. Segredos, chaves privadas e arquivos de ambiente reais nunca entram no Git.
 
 ## Desenvolvimento
-A estrutura executável e os comandos de instalação serão adicionados na próxima etapa, após fechar as versões das dependências e os ambientes de desenvolvimento.
+
+Requisitos: Node.js `>=22.12.0` e npm compatível.
+
+- `npm install` — instalar dependências do workspace.
+- `npm run dev` — iniciar o frontend web.
+- `npm run dev:api` — iniciar a API em `http://localhost:3000`.
+- `npm run build` — compilar frontend e API.
+- `npm run typecheck` — verificar os tipos de frontend e API.
+- `npm run test:api` — executar os testes automatizados iniciais da API.
+
+A API possui apenas o endpoint público `GET /health` nesta etapa. Autenticação, banco e funcionalidades de negócio ainda não estão implementados. Consulte [a auditoria técnica](docs/architecture/technical-audit.md) antes de tratar a fundação como pronta para produção.
 
 ## Documentos legais
 Os documentos em `docs/legal` são minutas internas e **não estão aprovados para publicação**. Exigem preenchimento dos dados da pessoa jurídica, mapeamento real dos fornecedores e fluxos de dados e revisão jurídica brasileira antes de qualquer aceite de usuário.
