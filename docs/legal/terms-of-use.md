@@ -1,8 +1,8 @@
 # Termos de Uso da Zelora — minuta para revisão jurídica
 
 **Versão:** 0.1 — **Data da minuta:** 10/11/2026  
-**Operadora:** [PREENCHER RAZÃO SOCIAL], CNPJ [PREENCHER], com sede em [PREENCHER] (“Zelora”).  
-**Contato:** [PREENCHER E-MAIL/CANAL DE ATENDIMENTO].  
+**Operadora:** 69.987.201 DEIVID DE JESUS DE MOURA, CNPJ 69.987.201/0001-20, com sede em [PREENCHER] (“Zelora”).  
+**Contato:** servicosdegestaoqradmin@gmail.com.  
 **Atenção:** minuta interna. Não publicar nem exigir aceite antes de preencher os campos e obter revisão jurídica.
 
 ## 1. Aceitação e escopo
@@ -88,5 +88,5 @@ A Zelora poderá atualizar estes Termos para refletir mudanças legais, operacio
 ## 15. Lei aplicável e contato
 Aplicam-se as leis da República Federativa do Brasil. Eventuais controvérsias serão tratadas no foro competente, respeitadas as regras legais de competência e proteção do consumidor.
 
-Dúvidas, reclamações ou solicitações: [PREENCHER CANAL].  
+Dúvidas, reclamações ou solicitações: servicosdegestaoqradmin@gmail.com.  
 **Última atualização:** [PREENCHER NA PUBLICAÇÃO].
