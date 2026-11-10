@@ -1,6 +1,7 @@
 import { createServer, type Server } from "node:http";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { loadApiConfig } from "./config.js";
 
 const serviceName = "zelora-api";
 
@@ -21,23 +22,18 @@ export function createApiServer(): Server {
 }
 
 function start(): void {
-  const port = Number.parseInt(process.env.PORT ?? "3000", 10);
-
-  if (!Number.isInteger(port) || port < 1 || port > 65_535) {
-    throw new Error("PORT must be an integer between 1 and 65535");
-  }
-
+  const { port } = loadApiConfig();
   const server = createApiServer();
 
   server.listen(port, "0.0.0.0", () => {
-    process.stdout.write(`Zelora API listening on port ${port}\n`);
+    process.stdout.write(`Zelora API listening on port ${port}\\n`);
   });
 
   const shutdown = (signal: string): void => {
-    process.stdout.write(`Received ${signal}; shutting down\n`);
+    process.stdout.write(`Received ${signal}; shutting down\\n`);
     server.close((error) => {
       if (error) {
-        process.stderr.write(`Shutdown failed: ${error.message}\n`);
+        process.stderr.write(`Shutdown failed: ${error.message}\\n`);
         process.exitCode = 1;
       }
     });
