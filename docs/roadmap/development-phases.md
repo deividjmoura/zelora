@@ -12,11 +12,13 @@
 - [ ] Definir ambientes local, homologação e produção.
 
 ## Fase 1 — Fundação executável
-- [ ] Criar workspace TypeScript e aplicação web React + Vite.
-- [ ] Criar API Node.js e contratos REST.
+- [x] Criar workspace npm com aplicação web React + Vite + TypeScript.
+- [x] Criar esqueleto inicial da API Node.js + TypeScript, endpoint de saúde e testes básicos (execução local/CI ainda pendente).
+- [ ] Expandir API REST com contratos, validação e tratamento padronizado de erros.
 - [ ] Configurar PostgreSQL e migrações.
 - [ ] Integrar Firebase Authentication e validação de token no backend.
-- [ ] Configurar lint, formatação, testes e CI.
+- [ ] Configurar lint, formatação, testes de integração e CI.
+- [ ] Gerar e versionar package-lock.json após instalação limpa.
 - [ ] Configurar gestão de variáveis e segredos.
 
 ## Fase 2 — Identidade e perfis
