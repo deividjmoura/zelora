@@ -1,7 +1,7 @@
 # Política de Privacidade da Zelora — minuta para revisão jurídica
 
 **Versão:** 0.1 — **Data da minuta:** 10/11/2026  
-**Controladora/operadora:** 69.987.201 DEIVID DE JESUS DE MOURA, CNPJ 69.987.201/0001-20, endereço servicosdegestaoqradmin@gmail.com.  
+**Pessoa jurídica informada para operação da Zelora:** 69.987.201 DEIVID DE JESUS DE MOURA, CNPJ 69.987.201/0001-20 (Empresário Individual — MEI, conforme documentação cadastral consultada). **Endereço comercial:** [PREENCHER]. O papel de controlador ou operador será definido por atividade e fluxo de dados, após mapeamento e revisão jurídica.  
 **Canal de privacidade:** servicosdegestaoqradmin@gmail.com.  
 **Encarregado (DPO), se aplicável/designado:** [PREENCHER NOME OU CANAL].  
 **Atenção:** minuta baseada no escopo planejado. Confirmar os fluxos reais, fornecedores, bases legais e prazos de retenção antes de publicar.
