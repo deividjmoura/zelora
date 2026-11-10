@@ -60,3 +60,16 @@
 ## Critério de conclusão
 
 A fundação será considerada validada somente quando instalação limpa, build, typecheck e testes passarem em CI e quando as rotas privadas exigirem autenticação e autorização verificadas no backend.
+
+## Atualização — lockfile, migrações e autenticação (10/11/2026)
+
+A auditoria acima era estática. Nesta atualização os comandos foram executados no workspace e os itens 1–3 da sequência recomendada receberam a primeira implementação:
+
+- `package-lock.json` foi gerado com `npm install`; build, typecheck e testes passaram localmente. O workflow de CI (`.github/workflows/ci.yml`) executa instalação, typecheck e testes com um serviço PostgreSQL; a primeira execução no GitHub ainda está pendente.
+- Criado runner de migrações (`src/db/migrate.ts`) com histórico automático em `schema_migrations` (versão, nome, checksum SHA-256, data e duração), bloqueio consultivo do PostgreSQL contra execuções concorrentes, aplicação transacional por migração e rollback por arquivos `.down.sql`.
+- Criada a migração inicial `0001_identity_and_profiles` com `roles`, `users`, `user_roles`, `contractor_profiles` e `professional_profiles`, sem senhas, CPF ou endereços.
+- Criados comandos `db:migrate`, `db:status` e `db:rollback`. `AUTO_MIGRATE=true` aplica migrações na inicialização da API.
+- Implementado middleware de autenticação com Firebase Admin SDK e autorização por papéis lidos do PostgreSQL. `GET /me` exige identidade e usuário ativo; `GET /admin/diagnostics` exige o papel `admin`.
+- Testes cobrem token ausente/inválido, usuário não provisionado, conta suspensa, autorização por papel, falha fechada sem Firebase, ordenação/checksum/rollback de migrações e a consulta de papéis no PostgreSQL. A integração foi executada contra PostgreSQL 18 real.
+
+Ainda pendente: executar o workflow no GitHub, provisionar o projeto Firebase e o PostgreSQL de cada ambiente, configurar CORS e rate limiting e criar o fluxo de provisionamento de usuários. Nenhuma credencial real foi adicionada ao repositório.
