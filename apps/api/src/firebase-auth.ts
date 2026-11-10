@@ -20,7 +20,7 @@ type FirebaseTokenVerifier = (
 
 export function extractBearerToken(header: string | undefined): string | null {
   if (!header) return null;
-  const match = /^Bearer\\s+([^\\s]+)$/i.exec(header.trim());
+  const match = /^Bearer\s+([^\s]+)$/i.exec(header.trim());
   return match?.[1] ?? null;
 }
 
@@ -40,7 +40,7 @@ export function createFirebaseIdentityVerifier(verifyToken: FirebaseTokenVerifie
 }
 
 function getFirebaseAuth() {
-  const app = getApps()[0] ?? initializeApp({
+  const app = getApps().find((candidate) => candidate.name === "[DEFAULT]") ?? initializeApp({
     credential: applicationDefault(),
   });
   return getAuth(app);

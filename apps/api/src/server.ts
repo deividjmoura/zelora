@@ -26,14 +26,14 @@ function start(): void {
   const server = createApiServer();
 
   server.listen(port, "0.0.0.0", () => {
-    process.stdout.write(`Zelora API listening on port ${port}\\n`);
+    process.stdout.write(`Zelora API listening on port ${port}\n`);
   });
 
   const shutdown = (signal: string): void => {
-    process.stdout.write(`Received ${signal}; shutting down\\n`);
+    process.stdout.write(`Received ${signal}; shutting down\n`);
     server.close((error) => {
       if (error) {
-        process.stderr.write(`Shutdown failed: ${error.message}\\n`);
+        process.stderr.write(`Shutdown failed: ${error.message}\n`);
         process.exitCode = 1;
       }
     });

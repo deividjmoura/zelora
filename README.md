@@ -69,7 +69,7 @@ Requisitos: Node.js `>=22.12.0` e npm compatível.
 - `npm run typecheck` — verificar os tipos de frontend e API.
 - `npm run test:api` — executar os testes automatizados da API.
 
-A API possui apenas o endpoint público `GET /health). PostgreSQL e Firebase Admin têm módulos de integração preparados, mas ainda não estão conectados a rotas de negócio. Consulte [a auditoria técnica](docs/architecture/technical-audit.md) antes de tratar a fundação como pronta para produção.
+A API possui apenas o endpoint público `GET /health`. PostgreSQL e Firebase Admin têm módulos de integração preparados, mas ainda não estão conectados a rotas de negócio. Consulte [a auditoria técnica](docs/architecture/technical-audit.md) antes de tratar a fundação como pronta para produção.
 
 ## Documentos legais
 Os documentos em `docs/legal` são minutas internas e **não estão aprovados para publicação**. Exigem preenchimento dos dados da pessoa jurídica, mapeamento real dos fornecedores e fluxos de dados e revisão jurídica brasileira antes de qualquer aceite de usuário.
