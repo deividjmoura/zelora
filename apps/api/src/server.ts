@@ -1,0 +1,50 @@
+import { createServer, type Server } from "node:http";
+
+const serviceName = "zelora-api";
+
+export function createApiServer(): Server {
+  return createServer((request, response) => {
+    response.setHeader("X-Content-Type-Options", "nosniff");
+    response.setHeader("Cache-Control", "no-store");
+
+    if (request.method === "GET" && request.url === "/health") {
+      response.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+      response.end(JSON.stringify({ status: "ok", service: serviceName }));
+      return;
+    }
+
+    response.writeHead(404, { "Content-Type": "application/json; charset=utf-8" });
+    response.end(JSON.stringify({ error: "not_found" }));
+  });
+}
+
+function start(): void {
+  const port = Number.parseInt(process.env.PORT ?? "3000", 10);
+
+  if (!Number.isInteger(port) || port < 1 || port > 65_535) {
+    throw new Error("PORT must be an integer between 1 and 65535");
+  }
+
+  const server = createApiServer();
+
+  server.listen(port, "0.0.0.0", () => {
+    process.stdout.write(`Zelora API listening on port ${port}\n`);
+  });
+
+  const shutdown = (signal: string): void => {
+    process.stdout.write(`Received ${signal}; shutting down\n`);
+    server.close((error) => {
+      if (error) {
+        process.stderr.write(`Shutdown failed: ${error.message}\n`);
+        process.exitCode = 1;
+      }
+    });
+  };
+
+  process.once("SIGINT", () => shutdown("SIGINT"));
+  process.once("SIGTERM", () => shutdown("SIGTERM"));
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  start();
+}
