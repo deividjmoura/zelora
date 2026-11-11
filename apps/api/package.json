@@ -4,15 +4,15 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "node --env-file-if-exists=../../.env --import tsx --watch src/server.ts",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "npm run build && node --test dist/*.test.js dist/auth/*.test.js dist/db/*.test.js",
     "test:postgres": "npm run build && node --test dist/db/migrate.postgres.test.js dist/db/postgres-users.postgres.test.js",
-    "start": "node dist/server.js",
-    "db:migrate": "tsx src/cli/migrate.ts up",
-    "db:rollback": "tsx src/cli/migrate.ts down",
-    "db:status": "tsx src/cli/migrate.ts status"
+    "start": "node --env-file-if-exists=../../.env dist/server.js",
+    "db:migrate": "node --env-file-if-exists=../../.env --import tsx src/cli/migrate.ts up",
+    "db:rollback": "node --env-file-if-exists=../../.env --import tsx src/cli/migrate.ts down",
+    "db:status": "node --env-file-if-exists=../../.env --import tsx src/cli/migrate.ts status"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
