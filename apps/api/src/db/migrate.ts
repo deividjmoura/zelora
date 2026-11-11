@@ -128,8 +128,11 @@ export async function loadMigrations(
   migrations.sort((left, right) => Number(left.version) - Number(right.version));
 
   for (let index = 1; index < migrations.length; index += 1) {
-    if (migrations[index - 1]?.version === migrations[index]?.version) {
-      throw new Error(`Duplicate migration version ${migrations[index]?.version}`);
+    const previousVersion = Number(migrations[index - 1]?.version);
+    const currentVersion = Number(migrations[index]?.version);
+
+    if (previousVersion === currentVersion) {
+      throw new Error(`Duplicate numeric migration version ${currentVersion}`);
     }
   }
 
@@ -247,8 +250,17 @@ export async function getMigrationStatus(
 ): Promise<MigrationStatus> {
   const migrations = await resolveMigrations(options);
   const history = await readHistoryIfPresent(client);
+  const migrationsByVersion = new Map(migrations.map((migration) => [migration.version, migration]));
   const appliedVersions = new Set(history.map((row) => row.version));
   const localVersions = new Set(migrations.map((migration) => migration.version));
+
+  for (const record of history) {
+    const migration = migrationsByVersion.get(record.version);
+
+    if (migration) {
+      assertMigrationUnchanged(record, migration);
+    }
+  }
 
   return {
     applied: history,
