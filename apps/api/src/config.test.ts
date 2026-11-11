@@ -31,7 +31,7 @@ test("rejects invalid ports and non-integer values", () => {
 
 test("rejects malformed and non-PostgreSQL connection URLs", () => {
   assert.throws(() => loadConfig({ DATABASE_URL: "not-a-url" }), /valid PostgreSQL connection URL/);
-  assert.throws(() => loadConfig({ DATABASE_URL: "https://example.test/db" }), /postgres protocol/);
+  assert.throws(() => loadConfig({ DATABASE_URL: "https://example.test/db" }), /postgres or postgresql protocol/);
 });
 
 test("requires a database URL when automatic migrations are enabled", () => {
