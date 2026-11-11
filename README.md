@@ -62,7 +62,9 @@ docs/
 
 Requisitos: Node.js `>=22.12.0` e npm compatível.
 
-- `npm install` — instalar dependências do workspace.
+Copie `.env.example` para `.env` na raiz do repositório e preencha somente as variáveis dos serviços que você realmente provisionou. A API usa o suporte nativo do Node para carregar esse arquivo nos comandos de desenvolvimento, inicialização e migração; o Vite lê o mesmo arquivo pela configuração `envDir`. O arquivo `.env` permanece fora do Git.
+
+- `npm ci` — instalar exatamente as dependências do lockfile.
 - `npm run dev` — iniciar o frontend web.
 - `npm run dev:api` — iniciar a API em `http://localhost:3000`.
 - `npm run build` — compilar frontend e API.
