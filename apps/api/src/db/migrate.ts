@@ -22,7 +22,7 @@ const CREATE_HISTORY_TABLE_SQL = `CREATE TABLE IF NOT EXISTS schema_migrations (
   execution_ms integer NOT NULL
 )`;
 
-const SELECT_HISTORY_SQL = "SELECT version, name, checksum FROM schema_migrations ORDER BY version";
+const SELECT_HISTORY_SQL = "SELECT version, name, checksum FROM schema_migrations ORDER BY version::bigint";
 
 export interface MigrationClient {
   query(text: string, values?: unknown[]): Promise<{ rows: Array<Record<string, unknown>> }>;
@@ -116,22 +116,26 @@ export async function loadMigrations(
       join(directory, `${version}_${name}${DOWN_MIGRATION_SUFFIX}`),
     );
 
+    if (downSql !== null && !downSql.trim()) {
+      throw new Error(`Down migration ${version}_${name} is empty`);
+    }
+
     migrations.push({
       version,
       name,
       sql,
-      checksum: checksumOf(sql),
+      checksum: checksumOf(sql, downSql),
       downSql,
     });
   }
 
-  migrations.sort((left, right) => Number(left.version) - Number(right.version));
+  migrations.sort((left, right) => compareVersions(left.version, right.version));
 
   for (let index = 1; index < migrations.length; index += 1) {
-    const previousVersion = Number(migrations[index - 1]?.version);
-    const currentVersion = Number(migrations[index]?.version);
+    const previousVersion = migrations[index - 1]?.version;
+    const currentVersion = migrations[index]?.version;
 
-    if (previousVersion === currentVersion) {
+    if (previousVersion && currentVersion && compareVersions(previousVersion, currentVersion) === 0) {
       throw new Error(`Duplicate numeric migration version ${currentVersion}`);
     }
   }
@@ -205,26 +209,31 @@ export async function migrateDown(
     await client.query(CREATE_HISTORY_TABLE_SQL);
 
     const history = await readHistory(client);
-    const targets = [...history].sort((left, right) => Number(right.version) - Number(left.version)).slice(0, steps);
+    const targets = [...history]
+      .sort((left, right) => compareVersions(right.version, left.version))
+      .slice(0, steps)
+      .map((record) => {
+        const migration = byVersion.get(record.version);
+
+        if (!migration) {
+          throw new Error(
+            `Applied migration ${record.version} (${record.name}) is missing from the migrations directory`,
+          );
+        }
+
+        assertMigrationUnchanged(record, migration);
+
+        if (!migration.downSql) {
+          throw new Error(
+            `Migration ${migration.version}_${migration.name} has no down migration; rollback is not supported`,
+          );
+        }
+
+        return { record, migration };
+      });
     const rolledBack: AppliedMigration[] = [];
 
-    for (const record of targets) {
-      const migration = byVersion.get(record.version);
-
-      if (!migration) {
-        throw new Error(
-          `Applied migration ${record.version} (${record.name}) is missing from the migrations directory`,
-        );
-      }
-
-      assertMigrationUnchanged(record, migration);
-
-      if (!migration.downSql) {
-        throw new Error(
-          `Migration ${migration.version}_${migration.name} has no down migration; rollback is not supported`,
-        );
-      }
-
+    for (const { migration } of targets) {
       options.log?.(`Rolling back migration ${migration.version}_${migration.name}`);
 
       const executionMs = await rollbackMigration(client, migration);
@@ -406,6 +415,12 @@ function assertHistoryMatchesFiles(
 }
 
 function assertMigrationUnchanged(record: MigrationHistoryRow, migration: Migration): void {
+  if (record.name !== migration.name) {
+    throw new Error(
+      `Migration ${record.version} was renamed after being applied; create a new migration instead`,
+    );
+  }
+
   if (record.checksum !== migration.checksum) {
     throw new Error(
       `Migration ${record.version}_${record.name} was modified after being applied; create a new migration instead`,
@@ -417,8 +432,22 @@ async function resolveMigrations(options: MigrationSourceOptions): Promise<reado
   return options.migrations ?? (await loadMigrations(options.directory));
 }
 
-function checksumOf(sql: string): string {
-  return createHash("sha256").update(sql, "utf8").digest("hex");
+function checksumOf(sql: string, downSql: string | null): string {
+  return createHash("sha256")
+    .update("up\\0", "utf8")
+    .update(sql, "utf8")
+    .update("\\0down\\0", "utf8")
+    .update(downSql ?? "<no-down-migration>", "utf8")
+    .digest("hex");
+}
+
+function compareVersions(left: string, right: string): number {
+  const leftVersion = BigInt(left);
+  const rightVersion = BigInt(right);
+
+  if (leftVersion < rightVersion) return -1;
+  if (leftVersion > rightVersion) return 1;
+  return 0;
 }
 
 async function readOptionalFile(path: string): Promise<string | null> {
