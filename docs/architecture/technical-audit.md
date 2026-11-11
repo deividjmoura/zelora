@@ -61,9 +61,9 @@
 
 A fundação será considerada validada somente quando instalação limpa, build, typecheck e testes passarem em CI e quando as rotas privadas exigirem autenticação e autorização verificadas no backend.
 
-## Atualização — fundação técnica em revisão (11/11/2026)
+## Atualização — fundação técnica integrada (11/11/2026)
 
-A implementação está em uma branch de trabalho e em um pull request para `main`; ainda não foi integrada.
+A fundação foi integrada à branch `main` por squash merge do PR #2 em 11/11/2026. Commit resultante: `fadd6489049acaed9ac24714957f504e060eea3a`.
 
 - O `package-lock.json` foi versionado. Na primeira execução registrada do GitHub Actions, `npm ci` e `npm run typecheck` concluíram com sucesso.
 - A primeira execução de testes falhou antes de descobrir qualquer teste: no Node.js 22.12.0, `node --test dist` tentou carregar o diretório `dist` como módulo. A compilação TypeScript da API, executada antes desse comando, concluiu sem erro.
