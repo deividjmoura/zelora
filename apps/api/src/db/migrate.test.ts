@@ -143,6 +143,15 @@ test("migrateUp applies pending migrations once and records history", async (t) 
   assert.equal(client.executed.length, 2);
 });
 
+test("loadMigrations rejects numerically duplicate versions with different padding", async (t) => {
+  const directory = await createMigrationDirectory(t, {
+    "001_first.sql": "SELECT 1;",
+    "0001_second.sql": "SELECT 2;",
+  });
+
+  await assert.rejects(loadMigrations(directory), /Duplicate numeric migration version 1/);
+});
+
 test("migrateUp refuses to run when an applied migration changed on disk", async (t) => {
   const client = new FakeMigrationClient();
   const directory = await createMigrationDirectory(t, INITIAL_FILES);
@@ -155,6 +164,23 @@ test("migrateUp refuses to run when an applied migration changed on disk", async
   );
 
   await assert.rejects(migrateUp(client, { directory }), /was modified after being applied/);
+});
+
+test("migration status detects an applied migration changed on disk", async (t) => {
+  const client = new FakeMigrationClient();
+  const directory = await createMigrationDirectory(t, INITIAL_FILES);
+
+  await migrateUp(client, { directory });
+  await writeFile(
+    join(directory, "0001_create_users.sql"),
+    "CREATE TABLE users (id bigint PRIMARY KEY);",
+    "utf8",
+  );
+
+  await assert.rejects(
+    getMigrationStatus(client, { directory }),
+    /was modified after being applied/,
+  );
 });
 
 test("a failed migration rolls back and is not recorded", async (t) => {
