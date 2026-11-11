@@ -60,3 +60,18 @@
 ## Critério de conclusão
 
 A fundação será considerada validada somente quando instalação limpa, build, typecheck e testes passarem em CI e quando as rotas privadas exigirem autenticação e autorização verificadas no backend.
+
+## Atualização — fundação técnica em revisão (11/11/2026)
+
+A implementação está em uma branch de trabalho e em um pull request para `main`; ainda não foi integrada.
+
+- O `package-lock.json` foi versionado. Na primeira execução registrada do GitHub Actions, `npm ci` e `npm run typecheck` concluíram com sucesso.
+- A primeira execução de testes falhou antes de descobrir qualquer teste: no Node.js 22.12.0, `node --test dist` tentou carregar o diretório `dist` como módulo. A compilação TypeScript da API, executada antes desse comando, concluiu sem erro.
+- O script foi corrigido para passar os arquivos compilados explicitamente ao test runner, e o workflow agora inclui também o build completo do frontend e da API. A nova execução do CI precisa concluir antes de considerar build e testes validados.
+- Criado runner de migrações (`src/db/migrate.ts`) com histórico em `schema_migrations`, checksum SHA-256 sobre os arquivos de subida e rollback, bloqueio consultivo contra execuções concorrentes, aplicação transacional e pré-validação dos rollbacks solicitados.
+- Criada a migração inicial `0001_identity_and_profiles` para `roles`, `users`, `user_roles`, `contractor_profiles` e `professional_profiles`. Ela não armazena senhas, CPF ou endereços.
+- Criados comandos `db:migrate`, `db:status` e `db:rollback`. `AUTO_MIGRATE=true` aplica migrações na inicialização, se `DATABASE_URL` estiver configurada.
+- Implementados adaptador Firebase Admin, middleware de autenticação e autorização por papéis carregados do PostgreSQL. Sem configuração Firebase, rotas privadas falham fechadas; não há fluxo de cadastro/provisionamento de usuários nesta etapa.
+- Foram adicionados testes unitários para configuração, autenticação, inicialização do Firebase Admin e runner de migrações, além de testes de integração condicionados a `TEST_DATABASE_URL`. Eles ainda aguardam uma execução de CI bem-sucedida; a primeira tentativa não chegou a executá-los.
+
+Ainda pendente: provisionar Firebase e PostgreSQL por ambiente, executar as migrações em um banco de desenvolvimento, configurar CORS/rate limiting e definir o fluxo administrativo de provisionamento. A aprovação do CI valida o código e os testes com banco efêmero, não comprova que exista infraestrutura de desenvolvimento ou produção provisionada. Nenhuma credencial real deve ser versionada.

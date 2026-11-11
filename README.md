@@ -2,7 +2,7 @@
 
 Plataforma web para conectar contratantes a profissionais de serviços domésticos, com foco em confiança, privacidade e organização da contratação.
 
-> **Status:** fundação e documentação inicial. Ainda não é uma aplicação pronta para produção.
+> **Status:** fundação executável com lockfile, migrações versionadas e middleware de autenticação/autorização. Ainda não é uma aplicação pronta para produção: não há projeto Firebase nem banco PostgreSQL provisionados.
 
 ## Produto
 A Zelora terá perfis de Contratante e Profissional, busca, residências, solicitações e contrapropostas, chat, agenda, avaliações, favoritos, notificações e painel administrativo. No lançamento, o pagamento do serviço será combinado diretamente entre as partes; eventual assinatura da plataforma será separada.
@@ -41,6 +41,7 @@ docs/
 - [Papéis e permissões](docs/product/user-roles.md)
 - [Regras de negócio](docs/product/business-rules.md)
 - [Arquitetura](docs/architecture/overview.md)
+- [Identidade, perfis e autenticação](docs/architecture/identity-and-authentication.md)
 - [Auditoria técnica e estado da fundação](docs/architecture/technical-audit.md)
 - [Decisão da stack](docs/architecture/decisions/0001-stack-inicial.md)
 - [Termos de Uso — minuta](docs/legal/terms-of-use.md)
@@ -61,14 +62,30 @@ docs/
 
 Requisitos: Node.js `>=22.12.0` e npm compatível.
 
-- `npm install` — instalar dependências do workspace.
+Copie `.env.example` para `.env` na raiz do repositório e preencha somente as variáveis dos serviços que você realmente provisionou. A API usa o suporte nativo do Node para carregar esse arquivo nos comandos de desenvolvimento, inicialização e migração; o Vite lê o mesmo arquivo pela configuração `envDir`. O arquivo `.env` permanece fora do Git.
+
+- `npm ci` — instalar exatamente as dependências do lockfile.
 - `npm run dev` — iniciar o frontend web.
 - `npm run dev:api` — iniciar a API em `http://localhost:3000`.
 - `npm run build` — compilar frontend e API.
 - `npm run typecheck` — verificar os tipos de frontend e API.
-- `npm run test:api` — executar os testes automatizados iniciais da API.
+- `npm run test:api` — compilar e executar os testes automatizados da API.
+- `npm run db:migrate --workspace @zelora/api` — aplicar migrações pendentes (requer `DATABASE_URL`).
+- `npm run db:status --workspace @zelora/api` — listar migrações aplicadas, pendentes e ausentes.
+- `npm run db:rollback --workspace @zelora/api -- --steps=1` — reverter a última migração com arquivo `.down.sql`.
+- `npm run test:postgres --workspace @zelora/api` — executar os testes de integração PostgreSQL (requer `TEST_DATABASE_URL`).
 
-A API possui apenas o endpoint público `GET /health` nesta etapa. Autenticação, banco e funcionalidades de negócio ainda não estão implementados. Consulte [a auditoria técnica](docs/architecture/technical-audit.md) antes de tratar a fundação como pronta para produção.
+### API atual
+- `GET /health` — público.
+- `GET /me` — exige `Authorization: Bearer <ID token do Firebase>` e um usuário de domínio ativo.
+- `GET /admin/diagnostics` — exige o papel `admin`.
+
+Papéis e status da conta são lidos do PostgreSQL em cada requisição; o token do Firebase só prova a identidade. Sem credenciais Firebase configuradas, rotas privadas respondem `503 auth_not_configured` em vez de liberar acesso.
+
+### Banco e migrações
+As migrações ficam em [`apps/api/migrations`](apps/api/migrations) e são registradas automaticamente na tabela `schema_migrations` (versão, checksum e duração), com bloqueio de concorrência. Para desenvolvimento, defina `DATABASE_URL`; `AUTO_MIGRATE=true` aplica as migrações pendentes na inicialização da API. Nunca versione credenciais reais — use `.env` local fora do Git.
+
+Consulte [a auditoria técnica](docs/architecture/technical-audit.md) antes de tratar a fundação como pronta para produção.
 
 ## Documentos legais
 Os documentos em `docs/legal` são minutas internas e **não estão aprovados para publicação**. Exigem preenchimento dos dados da pessoa jurídica, mapeamento real dos fornecedores e fluxos de dados e revisão jurídica brasileira antes de qualquer aceite de usuário.

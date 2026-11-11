@@ -33,5 +33,10 @@ Este documento descreve entidades conceituais; não é ainda um schema SQL defin
 - Evitar armazenar dados de cartão; delegar cobrança a provedor especializado.
 - Definir retenção e exclusão conforme finalidade e obrigações legais.
 
+## Migrações implementadas
+A primeira migração (`apps/api/migrations/0001_identity_and_profiles.sql`) cobre identidade e perfis iniciais: `roles`, `users`, `user_roles`, `contractor_profiles` e `professional_profiles`. Ela não armazena senhas, CPF ou endereços.
+
+O runner registra cada migração aplicada em `schema_migrations` com checksum SHA-256 cobrindo os arquivos `.sql` e `.down.sql`, detecta renomeações e alterações posteriores, usa bloqueio consultivo do PostgreSQL para evitar execuções concorrentes e pré-valida os arquivos antes de executar os rollbacks solicitados. Comandos: `npm run db:migrate`, `npm run db:status` e `npm run db:rollback --workspace @zelora/api -- --steps=1`.
+
 ## Próxima etapa
-Converter o modelo conceitual em diagrama ER e migrações somente após fechar as regras de domínio pendentes.
+Converter as demais entidades conceituais em migrações incrementais somente após fechar as regras de domínio pendentes. Cada nova migração deve ter arquivo de rollback quando a reversão for segura.
