@@ -13,12 +13,12 @@
 
 ## Fase 1 — Fundação executável
 - [x] Criar workspace npm com aplicação web React + Vite + TypeScript.
-- [x] Criar esqueleto inicial da API Node.js + TypeScript, endpoint de saúde e testes básicos (execução local validada; workflow de CI criado, primeira execução no GitHub pendente).
+- [x] Criar esqueleto inicial da API Node.js + TypeScript e endpoint de saúde; a validação automatizada completa continua pendente.
 - [ ] Expandir API REST com contratos, validação e tratamento padronizado de erros.
-- [ ] Configurar PostgreSQL e migrações. _(runner, histórico automático e migração inicial implementados e testados; provedor por ambiente ainda não provisionado.)_
-- [ ] Integrar Firebase Authentication e validação de token no backend. _(middleware e autorização por papel implementados e testados; projeto Firebase real ainda não configurado.)_
-- [ ] Configurar lint, formatação, testes de integração e CI. _(workflow com typecheck e testes, incluindo PostgreSQL, criado; lint e primeira execução no GitHub pendentes.)_
-- [x] Gerar e versionar package-lock.json após instalação limpa.
+- [ ] Configurar PostgreSQL e migrações. _(schema, runner, histórico e migração inicial implementados; CI e execução em banco de desenvolvimento pendentes.)_
+- [ ] Integrar Firebase Authentication e validação de token no backend. _(adaptador Admin e middleware implementados; CI e projeto Firebase real pendentes.)_
+- [ ] Configurar lint, formatação, testes de integração e CI. _(workflow criado; typecheck passou, mas a primeira execução falhou antes de executar os testes. Correção enviada; nova execução pendente.)_
+- [x] Versionar package-lock.json. (npm ci passou na primeira execução do GitHub Actions.)
 - [ ] Configurar gestão de variáveis e segredos.
 
 ## Fase 2 — Identidade e perfis
