@@ -225,7 +225,7 @@ test("migration status detects a migration renamed after being applied", async (
 
   await assert.rejects(
     getMigrationStatus(client, { directory }),
-    /Applied migration 0001 .* is missing from the migrations directory/,
+    /Migration 0001 was renamed after being applied/,
   );
 });
 
