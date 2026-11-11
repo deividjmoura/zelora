@@ -59,5 +59,5 @@ O projeto Firebase e o banco PostgreSQL ainda precisam ser provisionados por amb
 - Definir auditoria de concessão/revogação de papéis e operações administrativas.
 - Validar verificação de revogação de tokens e política de sessão conforme o risco do produto.
 - Configurar segredos e rotação de credenciais por ambiente.
-- Executar testes de integração em PostgreSQL e CI verde.
+- Repetir os testes de integração em um banco de desenvolvimento provisionado; o CI já executa os testes contra PostgreSQL 18 efêmero e está verde.
 - Revisar o modelo LGPD, retenção e controles de acesso antes de adicionar dados pessoais ou residenciais.
