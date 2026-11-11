@@ -41,6 +41,7 @@ docs/
 - [Papéis e permissões](docs/product/user-roles.md)
 - [Regras de negócio](docs/product/business-rules.md)
 - [Arquitetura](docs/architecture/overview.md)
+- [Identidade, perfis e autenticação](docs/architecture/identity-and-authentication.md)
 - [Auditoria técnica e estado da fundação](docs/architecture/technical-audit.md)
 - [Decisão da stack](docs/architecture/decisions/0001-stack-inicial.md)
 - [Termos de Uso — minuta](docs/legal/terms-of-use.md)
