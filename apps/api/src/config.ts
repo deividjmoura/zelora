@@ -21,7 +21,28 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   }
 
   const databaseUrl = nonEmpty(env.DATABASE_URL);
-  const autoMigrate = env.AUTO_MIGRATE === "true";
+
+  if (databaseUrl) {
+    let parsedDatabaseUrl: URL;
+
+    try {
+      parsedDatabaseUrl = new URL(databaseUrl);
+    } catch {
+      throw new Error("DATABASE_URL must be a valid PostgreSQL connection URL");
+    }
+
+    if (parsedDatabaseUrl.protocol !== "postgres:" && parsedDatabaseUrl.protocol !== "postgresql:") {
+      throw new Error("DATABASE_URL must use the postgres or postgresql protocol");
+    }
+  }
+
+  const rawAutoMigrate = nonEmpty(env.AUTO_MIGRATE)?.toLowerCase() ?? "false";
+
+  if (rawAutoMigrate !== "true" && rawAutoMigrate !== "false") {
+    throw new Error("AUTO_MIGRATE must be true or false");
+  }
+
+  const autoMigrate = rawAutoMigrate === "true";
 
   if (autoMigrate && !databaseUrl) {
     throw new Error("AUTO_MIGRATE=true requires DATABASE_URL");
