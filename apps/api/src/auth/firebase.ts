@@ -20,7 +20,8 @@ export type FirebaseAdminConfig =
  * verified.
  */
 export function createFirebaseTokenVerifier(config: FirebaseAdminConfig): TokenVerifier {
-  if (getApps().length === 0) {
+  const defaultApp =
+    getApps().find((candidate) => candidate.name === "[DEFAULT]") ??
     initializeApp(
       config.mode === "emulator"
         ? { projectId: config.projectId }
@@ -32,9 +33,8 @@ export function createFirebaseTokenVerifier(config: FirebaseAdminConfig): TokenV
             }),
           },
     );
-  }
 
-  const firebaseAuth = getAuth();
+  const firebaseAuth = getAuth(defaultApp);
 
   return {
     async verifyIdToken(idToken: string): Promise<AuthContext> {
