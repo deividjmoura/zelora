@@ -136,7 +136,7 @@ export async function loadMigrations(
     const currentVersion = migrations[index]?.version;
 
     if (previousVersion && currentVersion && compareVersions(previousVersion, currentVersion) === 0) {
-      throw new Error(`Duplicate numeric migration version ${currentVersion}`);
+      throw new Error(`Duplicate numeric migration version ${BigInt(currentVersion).toString()}`);
     }
   }
 
