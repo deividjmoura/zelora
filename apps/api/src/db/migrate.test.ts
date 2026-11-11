@@ -31,7 +31,7 @@ class FakeMigrationClient implements MigrationClient {
       return { rows: [] };
     }
 
-    if (sql === "SELECT version, name, checksum FROM schema_migrations ORDER BY version") {
+    if (sql === "SELECT version, name, checksum FROM schema_migrations ORDER BY version::bigint") {
       return { rows: this.history.map((row) => ({ ...row })) };
     }
 
@@ -153,6 +153,15 @@ test("loadMigrations rejects numerically duplicate versions with different paddi
   await assert.rejects(loadMigrations(directory), /Duplicate numeric migration version 1/);
 });
 
+test("loadMigrations rejects an empty rollback file", async (t) => {
+  const directory = await createMigrationDirectory(t, {
+    "0001_create_users.sql": "CREATE TABLE users (id integer PRIMARY KEY);",
+    "0001_create_users.down.sql": "   ",
+  });
+
+  await assert.rejects(loadMigrations(directory), /Down migration 0001_create_users is empty/);
+});
+
 test("migrateUp refuses to run when an applied migration changed on disk", async (t) => {
   const client = new FakeMigrationClient();
   const directory = await createMigrationDirectory(t, INITIAL_FILES);
@@ -181,6 +190,42 @@ test("migration status detects an applied migration changed on disk", async (t) 
   await assert.rejects(
     getMigrationStatus(client, { directory }),
     /was modified after being applied/,
+  );
+});
+
+test("migration checksum also protects the rollback file", async (t) => {
+  const client = new FakeMigrationClient();
+  const directory = await createMigrationDirectory(t, {
+    "0001_create_users.sql": "CREATE TABLE users (id integer PRIMARY KEY);",
+    "0001_create_users.down.sql": "DROP TABLE users;",
+  });
+
+  await migrateUp(client, { directory });
+  await writeFile(
+    join(directory, "0001_create_users.down.sql"),
+    "DROP TABLE IF EXISTS users;",
+    "utf8",
+  );
+
+  await assert.rejects(
+    getMigrationStatus(client, { directory }),
+    /was modified after being applied/,
+  );
+});
+
+test("migration status detects a migration renamed after being applied", async (t) => {
+  const client = new FakeMigrationClient();
+  const directory = await createMigrationDirectory(t, {
+    "0001_create_users.sql": "CREATE TABLE users (id integer PRIMARY KEY);",
+  });
+
+  await migrateUp(client, { directory });
+  await rm(join(directory, "0001_create_users.sql"));
+  await writeFile(join(directory, "0001_initialize_users.sql"), "CREATE TABLE users (id integer PRIMARY KEY);", "utf8");
+
+  await assert.rejects(
+    getMigrationStatus(client, { directory }),
+    /Applied migration 0001 .* is missing from the migrations directory/,
   );
 });
 
@@ -214,6 +259,26 @@ test("migrateDown rolls back the latest migrations with their down files", async
     "DROP TABLE users;",
   ]);
   assert.deepEqual(client.history, []);
+});
+
+test("migrateDown validates every target before rolling any migration back", async (t) => {
+  const client = new FakeMigrationClient();
+  const directory = await createMigrationDirectory(t, {
+    "0001_create_users.sql": "CREATE TABLE users (id integer PRIMARY KEY);",
+    "0002_add_widgets.sql": "ALTER TABLE users ADD COLUMN widgets integer;",
+    "0002_add_widgets.down.sql": "ALTER TABLE users DROP COLUMN widgets;",
+  });
+
+  await migrateUp(client, { directory });
+  const executedBeforeRollback = client.executed.length;
+
+  await assert.rejects(
+    migrateDown(client, { directory, steps: 2 }),
+    /has no down migration/,
+  );
+
+  assert.equal(client.executed.length, executedBeforeRollback);
+  assert.deepEqual(client.history.map((row) => row.version), ["0001", "0002"]);
 });
 
 test("migrateDown refuses migrations without a down file", async (t) => {
