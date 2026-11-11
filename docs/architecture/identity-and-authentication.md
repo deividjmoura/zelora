@@ -50,7 +50,7 @@ Não existe nesta etapa endpoint de cadastro, provisionamento, atribuição de p
 - `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL` e `FIREBASE_PRIVATE_KEY`: credenciais de serviço do Firebase Admin, somente no backend.
 - `FIREBASE_AUTH_EMULATOR_HOST`: alternativa local para o emulador; exige `FIREBASE_PROJECT_ID`.
 
-O projeto Firebase e o banco PostgreSQL ainda precisam ser provisionados por ambiente. Não colocar chaves, senhas, arquivos de service account ou URLs reais com credenciais no repositório. `.env.example` contém somente nomes de variáveis e instruções.
+O projeto Firebase e o banco PostgreSQL ainda precisam ser provisionados por ambiente. Em desenvolvimento, a API e o Vite carregam o arquivo `.env` da raiz; crie-o copiando `.env.example`. Não colocar chaves, senhas, arquivos de service account ou URLs reais com credenciais no repositório. `.env.example` contém somente nomes de variáveis e instruções.
 
 ## Limites antes de produção
 
