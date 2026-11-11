@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test, type TestContext } from "node:test";
 import {
+  getMigrationStatus,
   loadMigrations,
   migrateDown,
   migrateUp,
